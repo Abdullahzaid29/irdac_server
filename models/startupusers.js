@@ -1,6 +1,6 @@
 module.exports = function (sequelize, Sequelize) {
 
-    var User = sequelize.define('users', {
+    var startupusers = sequelize.define('startupusers', {
 
         id: {
             autoIncrement: true,
@@ -16,11 +16,11 @@ module.exports = function (sequelize, Sequelize) {
             allowNull: false
 
         },
-        gender: {
+        phonenumber: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        phonenumber: {
+        organization: {
             type: Sequelize.STRING,
             allowNull: false
         },
@@ -28,11 +28,6 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.STRING,
             allowNull: false
         },
-
-        last_login: {
-            type: Sequelize.DATE
-        },
-
         status: {
             type: Sequelize.ENUM('active', 'inactive'),
             defaultValue: 'active'
@@ -41,6 +36,6 @@ module.exports = function (sequelize, Sequelize) {
 
     });
 
-    return User;
+    return startupusers;
 
 }

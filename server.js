@@ -11,7 +11,7 @@ var corOptions = {
 }
 models.sequelize.sync()
     .then(function () {
-        console.log('Nice! Database looks fine')
+        console.log('Connected to Database!!')
     }).catch(function (err) {
         console.log(err, "Something went wrong with the Database Update!")
 });
@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 
 const router = require('./routes/userRouter.js')
-app.use('/api/users',router)
+app.use('/api',router)
 
 app.get("/",(req,res)=>{
 res.json({Message:"Server is running on port 8000"})

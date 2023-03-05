@@ -1,5 +1,5 @@
 {
-  "name": "node_mysql",
+  "name": "ClientExpo_Server",
   "version": "1.0.0",
   "description": "backend_practise",
   "main": "server.js",
