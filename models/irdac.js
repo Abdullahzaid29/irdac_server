@@ -1,41 +1,41 @@
 module.exports = function (sequelize, Sequelize) {
 
-    var startupusers = sequelize.define('startupusers', {
+    var irdac = sequelize.define('irdac', {
 
         id: {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER
         },
-        username: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        email: {
+        registration_number: {
             type: Sequelize.STRING,
             allowNull: false
 
         },
-        phonenumber: {
+        name: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        organization: {
+        bank: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        password: {
+        phone_number: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        aadhar_number: {
             type: Sequelize.STRING,
             allowNull: false
         },
         status: {
             type: Sequelize.ENUM('active', 'inactive'),
+            allowNull: false,
             defaultValue: 'active'
         }
-
-
+        
     });
 
-    return startupusers;
+    return irdac;
 
 }

@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "password",
-    "database": "ClientExpo_Server",
+    "database": "irdac",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

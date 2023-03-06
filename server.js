@@ -6,7 +6,7 @@ var models = require("./models");
 const app = express()
 dotenv.config({path:"config/config.env"})
 var corOptions = {
-    origin:"http://localhost:8001",
+    origin:"http://localhost:5000",
     credentials: true,
 }
 models.sequelize.sync()
@@ -24,11 +24,11 @@ app.use(express.json())
 
 app.use(express.urlencoded({ extended:true }))
 
-const router = require('./routes/userRouter.js')
+const router = require('./routes/Router.js')
 app.use('/api',router)
 
 app.get("/",(req,res)=>{
-res.json({Message:"Server is running on port 8000"})
+res.json({Message:"Server is running on port 6000"})
 })
 
 const PORT = process.env.PORT 

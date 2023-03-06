@@ -1,7 +1,7 @@
 {
-  "name": "ClientExpo_Server",
+  "name": "irdac_server",
   "version": "1.0.0",
-  "description": "backend_practise",
+  "description": "backend",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
@@ -18,6 +18,7 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.8.0",
     "nodemailer-smtp-transport": "^2.7.4",
+    "nodemon": "^2.0.21",
     "sequelize": "^6.28.0"
   },
   "devDependencies": {
