@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "password",
-    "database": "irdac",
-    "host": "127.0.0.1",
+    "username": "freedb_irdac-user",
+    "password": "Jh5g2j5z4R$JzX4",
+    "database": "freedb_irdac_server",
+    "host": "sql.freedb.tech",
     "dialect": "mysql"
   },
   "test": {
