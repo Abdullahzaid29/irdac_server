@@ -2,18 +2,28 @@ const express = require("express")
 const cors = require("cors")
 const dotenv = require("dotenv")
 const morgan = require("morgan")
-var models = require("./models");
+
+// var models = require("./models");
 const app = express()
 dotenv.config({path:"config/config.env"})
 var corOptions = {
     origin:"http://localhost:5000",
     credentials: true,
 }
-models.sequelize.sync()
-    .then(function () {
-        console.log('Connected to Database!!')
-    }).catch(function (err) {
-        console.log(err, "Something went wrong with the Database Update!")
+// models.sequelize.sync()
+//     .then(function () {
+//         console.log('Connected to Database!!')
+//     }).catch(function (err) {
+//         console.log(err, "Something went wrong with the Database Update!")
+// });
+
+const admin = require('firebase-admin');
+
+const serviceAccount = require('./service_key/irdai-server-firebase-adminsdk-gtnv6-b5e0cebc8f.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://irdai-server.firebaseio.com'
 });
 
 app.use(morgan('tiny'))
