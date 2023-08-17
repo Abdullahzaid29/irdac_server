@@ -6,12 +6,18 @@ const morgan = require("morgan")
 // var models = require("./models");
 const app = express()
 dotenv.config({path:"config/config.env"})
-var corOptions = {
-    origin:"http://localhost:5000",
-    credentials: true,
-    methods: 'GET,PUT,POST,DELETE',   // List of allowed HTTP methods
-    optionsSuccessStatus: 200
+// var corOptions = {
+//     origin:"http://localhost:5000",
+//     credentials: true,
+//     methods: 'GET,PUT,POST,DELETE',   // List of allowed HTTP methods
+//     optionsSuccessStatus: 200
+// }
+const corOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
 }
+
 // models.sequelize.sync()
 //     .then(function () {
 //         console.log('Connected to Database!!')
