@@ -9,10 +9,8 @@ dotenv.config({path:"config/config.env"})
 var corOptions = {
     origin:"http://localhost:5000",
     credentials: true,
-    'Access-Control-Allow-Credentials': true,
     methods: 'GET,PUT,POST,DELETE',   // List of allowed HTTP methods
-    optionsSuccessStatus: 204        // Set the status for preflight success
-
+    optionsSuccessStatus: 200
 }
 // models.sequelize.sync()
 //     .then(function () {
