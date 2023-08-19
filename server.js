@@ -12,14 +12,15 @@ dotenv.config({path:"config/config.env"})
 //     methods: 'GET,PUT,POST,DELETE',   // List of allowed HTTP methods
 //     optionsSuccessStatus: 200
 // }
-var corOptions = {
-  origin:["https://irdai-dashboard.vercel.app","http://localhost:5000"],
-  credentials: true,
-  optionsSuccessStatus: 200
-}
+// var corOptions = {
+//   origin:["https://irdai-dashboard.vercel.app","http://localhost:5000"],
+//   credentials: true,
+//   optionsSuccessStatus: 200
+// }
 
 
-app.use(cors(corOptions))
+// app.use(cors(corOptions))
+app.use(cors({ origin: true }));
 
 app.use(express.json())
 
