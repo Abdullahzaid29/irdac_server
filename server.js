@@ -20,7 +20,8 @@ dotenv.config({path:"config/config.env"})
 
 
 // app.use(cors(corOptions))
-app.use(cors({ origin: true }));
+// app.use(cors({ origin: true }));
+
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
@@ -41,6 +42,18 @@ app.use((req, res, next) => {
 
   next();
 });
+app.options("*", (req, res) => {
+  console.log("preflight");
+  if (
+    req.headers.origin === "http://localhost:5000" &&
+    allowMethods.includes(req.headers["access-control-request-method"]) &&
+    allowHeaders.includes(req.headers["access-control-request-headers"])
+  ) {
+    console.log("pass");
+    return res.status(204).send();
+  } else {
+    console.log("fail");
+  }})
 app.use(express.json())
 
 app.use(express.urlencoded({ extended:true }))
