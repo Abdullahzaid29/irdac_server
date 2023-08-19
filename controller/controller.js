@@ -33,7 +33,7 @@ async function signin(req, res) {
   admin.auth().getUserByEmail(info.username,info.password)
   .then((userRecord) => {
     // Authenticate the user using their password
-   token.push(jwt.sign({ userId:userRecord.uid }, 'your-secret-key', { expiresIn: '1h' }))
+   token.push(jwt.sign({ userId:userRecord.uid }, 'your-secret-key', {  expiresIn: '1h'}))
 
     return admin.auth().createCustomToken(userRecord.uid);
   })
