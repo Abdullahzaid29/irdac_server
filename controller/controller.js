@@ -5,20 +5,9 @@ const jwt = require('jsonwebtoken');
 
 const admin = require('firebase-admin');
 // const getdata = axios.get("http://localhost:7000/api/fetchppm");
-const data = axios.get("https://thingspeak.com/channels/2125069/feed.json");
 let sdata = [];
 let token = []
-try {
-  data.then((response) => {
-    // console.log(response.data.feeds);
-    let apidata = response.data.feeds;
-    sdata.push(apidata);
-    // setData(response.data)
-  });
-} catch (err) {
-  console.log("pages auth in error");
-  console.log(err);
-}
+
 // const userppm = require("./ppmstatus");
 // const Users = model.users;
 // const irdac = model.irdac;
@@ -44,7 +33,7 @@ async function signin(req, res) {
   admin.auth().getUserByEmail(info.username,info.password)
   .then((userRecord) => {
     // Authenticate the user using their password
-   token.push(jwt.sign({ userId:userRecord.uid }, 'your-secret-key', { expiresIn: 60 }))
+   token.push(jwt.sign({ userId:userRecord.uid }, 'your-secret-key', { expiresIn: '1h' }))
 
     return admin.auth().createCustomToken(userRecord.uid);
   })
@@ -102,9 +91,22 @@ const forgotpassword = async(req, res)=>{
 }
 
 async function fetchppm(req, res) {
-  // const { body, headers, method } = req;
-  // let output = [];
-  // let flag = 1;
+  const data = axios.get("https://thingspeak.com/channels/2237374/feed.json");
+
+  try {
+   await  axios.get("https://thingspeak.com/channels/2237374/feed.json").then((response) => {
+      console.log(response.data.feeds);
+      // let apidata = response.data.feeds;
+      // sdata.push(apidata);
+      // setData(response.data)
+    });
+  } catch (err) {
+    console.log("pages auth in error");
+    console.log(err,"errot  mmsmosk");
+  }
+  const { body, headers, method } = req;
+  let output = [];
+  let flag = 1;
 
   // for (let i = 0; i < sdata[0].length; i++) {
   //   console.log("sdata", sdata[0][0].field2);
@@ -138,7 +140,7 @@ async function fetchppm(req, res) {
   //     console.log("false");
   //   }
   // }
-  // res.status(200).json(output);
+  res.status(200).json(output);
 }
 
 async function addusers(req, res) {

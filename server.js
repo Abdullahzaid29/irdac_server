@@ -13,10 +13,17 @@ dotenv.config({path:"config/config.env"})
 //     optionsSuccessStatus: 200
 // }
 var corOptions = {
-  origin:["https://irdai-dashboard.vercel.app/","http://localhost:5000"],
+  origin:["https://irdai-dashboard.vercel.app","http://localhost:5000"],
   credentials: true,
   optionsSuccessStatus: 200
 }
+
+
+app.use(cors(corOptions))
+
+app.use(express.json())
+
+app.use(express.urlencoded({ extended:true }))
 
 // models.sequelize.sync()
 //     .then(function () {
@@ -36,11 +43,6 @@ admin.initializeApp({
 
 app.use(morgan('tiny'))
 
-app.use(cors(corOptions))
-
-app.use(express.json())
-
-app.use(express.urlencoded({ extended:true }))
 
 const router = require('./routes/Router.js')
 app.use('/api',router)
