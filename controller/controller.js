@@ -4,6 +4,9 @@ const axios = require("axios");
 const jwt = require('jsonwebtoken');
 
 const admin = require('firebase-admin');
+
+const db = admin.database();
+
 // const getdata = axios.get("http://localhost:7000/api/fetchppm");
 let sdata = [];
 let token = []
@@ -92,13 +95,56 @@ const forgotpassword = async(req, res)=>{
 
 async function fetchppm(req, res) {
   const data = axios.get("https://thingspeak.com/channels/2237374/feed.json");
+  function retrieveData(ref) {
+    return new Promise((resolve, reject) => {
+      ref.once('value')
+        .then(snapshot => {
+          resolve(snapshot.val());
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+  const parentRef = db.ref('irdai');
+  const dbdata = async (ppm)=>{
+    try {
+      
+        const data =  await retrieveData(parentRef);
+        // console.log(
+        //   JSON.stringify(data, null, 2)
+        // );
+      let result = JSON.stringify(data, null, 2);
+      let response = { user: result, ppm: ppm};
+      res.status(200).json(response);
+      
 
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return null;
+    }
+
+  }
   try {
-   await  axios.get("https://thingspeak.com/channels/2237374/feed.json").then((response) => {
-      console.log(response.data.feeds);
+      await  axios.get("https://thingspeak.com/channels/2237374/feed.json").then((response) => {
+      console.log(response.data.feeds.length);
+      let fetchdata = response.data.feeds;
+      let ppm = [];
+      let sum = 0;
+      for (let i = 0; i < fetchdata.length; i++) {
+      //  console.log(response.data.feeds[1].field1);
+      //  console.log( parseInt(fetchdata[i].field1));
+       if (fetchdata[i].field1) {
+       sum = sum + parseInt(fetchdata[i].field1);
+        
+       }
+      }
+      console.log(sum);
+      dbdata(sum)
       // let apidata = response.data.feeds;
       // sdata.push(apidata);
       // setData(response.data)
+    
     });
   } catch (err) {
     console.log("pages auth in error");
@@ -108,6 +154,12 @@ async function fetchppm(req, res) {
   let output = [];
   let flag = 1;
 
+  // Reference to a specific node in the database
+ 
+  
+  // Read data from the database
+ 
+ 
   // for (let i = 0; i < sdata[0].length; i++) {
   //   console.log("sdata", sdata[0][0].field2);
 
@@ -140,7 +192,6 @@ async function fetchppm(req, res) {
   //     console.log("false");
   //   }
   // }
-  res.status(200).json(output);
 }
 
 async function addusers(req, res) {

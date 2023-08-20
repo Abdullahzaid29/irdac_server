@@ -38,7 +38,7 @@ const serviceAccount = require('./service_key/irdai-server-firebase-adminsdk-gtn
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://irdai-server.firebaseio.com'
+  databaseURL: 'https://irdai-server-default-rtdb.firebaseio.com/'
 });
 
 app.use(morgan('tiny'))
