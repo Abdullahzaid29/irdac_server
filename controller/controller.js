@@ -115,6 +115,7 @@ async function fetchppm(req, res) {
         //   JSON.stringify(data, null, 2)
         // );
       let result = JSON.stringify(data, null, 2);
+       result =JSON.parse(result)
       let response = { user: result, ppm: ppm};
       res.status(200).json(response);
       
