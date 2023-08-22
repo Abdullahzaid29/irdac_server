@@ -3,15 +3,9 @@ const cors = require("cors")
 const dotenv = require("dotenv")
 const morgan = require("morgan")
 
-// var models = require("./models");
 const app = express()
 dotenv.config({path:"config/config.env"})
-// var corOptions = {
-//     origin:"http://localhost:5000",
-//     credentials: true,
-//     methods: 'GET,PUT,POST,DELETE',   // List of allowed HTTP methods
-//     optionsSuccessStatus: 200
-// }
+
 var corOptions = {
   origin:["https://irdai-dashboard.vercel.app","http://localhost:5000"],
   credentials: true,
@@ -24,13 +18,6 @@ app.use(cors(corOptions))
 app.use(express.json())
 
 app.use(express.urlencoded({ extended:true }))
-
-// models.sequelize.sync()
-//     .then(function () {
-//         console.log('Connected to Database!!')
-//     }).catch(function (err) {
-//         console.log(err, "Something went wrong with the Database Update!")
-// });
 
 const admin = require('firebase-admin');
 

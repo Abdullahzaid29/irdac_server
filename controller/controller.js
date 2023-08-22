@@ -1,5 +1,4 @@
 var bCrypt = require("bcryptjs");
-// const model = require("../models");
 const axios = require("axios");
 const jwt = require('jsonwebtoken');
 
@@ -7,13 +6,9 @@ const admin = require('firebase-admin');
 
 const db = admin.database();
 
-// const getdata = axios.get("http://localhost:7000/api/fetchppm");
 let sdata = [];
 let token = []
 
-// const userppm = require("./ppmstatus");
-// const Users = model.users;
-// const irdac = model.irdac;
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
 // const client = require("twilio")(accountSid, authToken);
@@ -22,7 +17,6 @@ var generateHash = function (password) {
 };
 
 async function signin(req, res) {
-  // const { body, headers, method } = req;
 
   let info = {
     username: req.body.username,
@@ -49,30 +43,7 @@ async function signin(req, res) {
     console.error('Error fetching user data:', error);
     res.status(400).json({ Message: "That email does not exist" });
   });
-  // console.log(Users);
-  // var isValidPassword = function (userpass, password) {
-  //   return bCrypt.compareSync(password, userpass);
-  // };
 
-  // await Users.findOne({
-  //   where: {
-  //     username: info.username,
-  //   },
-  // })
-  //   .then(function (user) {
-  //     if (!user) {
-  //       res.status(401).json({ Message: "That email does not exist" });
-  //       console.log("Email does not exist");
-  //     } else if (!isValidPassword(user.password, info.password)) {
-  //       console.log("incorrect password");
-  //       res.status(400).json({ Message: "incorrect password" });
-  //     } else {
-  //       res.status(200).json({ Message: "success", status: true });
-  //     }
-  //   })
-  //   .catch(function (err) {
-  //     console.log("Error:", err);
-  //   });
 }
 
 const forgotpassword = async(req, res)=>{
@@ -130,18 +101,20 @@ async function fetchppm(req, res) {
       await  axios.get("https://thingspeak.com/channels/2237374/feed.json").then((response) => {
       console.log(response.data.feeds.length);
       let fetchdata = response.data.feeds;
+      let length = fetchdata.length;
       let ppm = [];
       let sum = 0;
-      for (let i = 0; i < fetchdata.length; i++) {
-      //  console.log(response.data.feeds[1].field1);
-      //  console.log( parseInt(fetchdata[i].field1));
-       if (fetchdata[i].field1) {
-       sum = sum + parseInt(fetchdata[i].field1);
+      // for (let i = 0; i < fetchdata.length; i++) {
+      // //  console.log(response.data.feeds[1].field1);
+      // //  console.log( parseInt(fetchdata[i].field1));
+      //  if (fetchdata[i].field1) {
+      //  sum = sum + parseInt(fetchdata[i].field1);
         
-       }
-      }
+      //  }
+      // }
+      console.log(fetchdata[length-1].field1);
       console.log(sum);
-      dbdata(sum)
+      dbdata(fetchdata[length-1].field1)
       // let apidata = response.data.feeds;
       // sdata.push(apidata);
       // setData(response.data)
@@ -195,56 +168,9 @@ async function fetchppm(req, res) {
   // }
 }
 
-async function addusers(req, res) {
-  const { body, headers, method } = req;
-  const { username, password } = body;
-
-  if (!username || !password) {
-    return res.status(400).json({ message: "Missing username/password" });
-  }
-
-  let params = {
-    username: username,
-    password: password,
-  };
-  if (params.username.length && params.password.length) {
-    Users.findOne({
-      where: {
-        username: params.username,
-      },
-    }).then(function (user) {
-      if (user) {
-        res.status(400).json({ Message: "That email is already taken" });
-      } else {
-        params.password = generateHash(params.password);
-        const user = Users.create(params);
-        res.status(200).json({ Message: "Successfully added user" });
-      }
-    });
-  } else {
-    res.status(300).json({ Message: "empty field" });
-  }
-}
-const irdacaddusers = async (req, res) => {
-  const { body, headers, method } = req;
-
-  let info = {
-    entry_id: req.body.entry_id,
-    registration_number: req.body.registration_number,
-    name: req.body.name,
-    bank: req.body.bank,
-    phone_number: req.body.phone_number,
-    aadhar_number: req.body.aadhar_number,
-  };
-
-  const user = irdac.create(info);
-  res.status(200).json({ Message: "Successfully added user" });
-};
 
 module.exports = {
   signin,
   fetchppm,
-  addusers,
-  irdacaddusers,
   forgotpassword
 };
