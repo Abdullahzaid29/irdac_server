@@ -9,9 +9,9 @@ const db = admin.database();
 let sdata = [];
 let token = []
 
-// const accountSid = process.env.TWILIO_ACCOUNT_SID;
-// const authToken = process.env.TWILIO_AUTH_TOKEN;
-// const client = require("twilio")(accountSid, authToken);
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require("twilio")(accountSid, authToken);
 var generateHash = function (password) {
   return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
 };
@@ -104,6 +104,8 @@ async function fetchppm(req, res) {
       let length = fetchdata.length;
       let ppm = [];
       let sum = 0;
+      let flag = false;
+      let i =0;
       // for (let i = 0; i < fetchdata.length; i++) {
       // //  console.log(response.data.feeds[1].field1);
       // //  console.log( parseInt(fetchdata[i].field1));
@@ -112,9 +114,52 @@ async function fetchppm(req, res) {
         
       //  }
       // }
-      console.log(fetchdata[length-1].field1);
-      console.log(sum);
+      const usersRef = db.ref('sms');
+    const newUserRef = usersRef.push();
+      console.log("before loop  twilio",flag);
+
+      // if(fetchdata[i].entry_id){
+          
+  
+      //     console.log("twilop sss");
+      //     flag = true;
+      // }
+     for (let i = 0; i < fetchdata.length; i++) {
+      if(fetchdata[i].entry_id == i+1 && fetchdata[i].field1 && fetchdata[i].field1 !=0 ){
+        console.log("inside twilio",fetchdata[i].entry_id);
+        flag = true;
+  //       newUserRef.set(1)
+  // .then(() => {
+  //   console.log('Data appended successfully');
+  // })
+  // .catch((error) => {
+  //   console.error('Error appending data:', error);
+  // });
+        break
+      }
+     }
+     if(flag){
+      client.messages
+      // .create({
+      //   from: "+16203494005",
+      //   body: "Reminder:your vehicle has crossed the threshold",
+      //   to: '+919025650110'
+      // })
+      // .then((message) => console.log(message.sid));
+      console.log("twilio works");
+     }
+     if(fetchdata.length){
       dbdata(fetchdata[length-1].field1)
+    }else{
+      
+      dbdata(0)
+      // res.status(200).json("no data");
+    }
+      // console.log(fetchdata[length-1].field1);
+      // console.log(sum);
+      // if(flag){
+      //   dbdata(fetchdata[length-1].field1)
+      // }
       // let apidata = response.data.feeds;
       // sdata.push(apidata);
       // setData(response.data)
@@ -147,14 +192,7 @@ async function fetchppm(req, res) {
   //       output.push(responsesss);
   //       console.log("responsesss", responsesss);
   //       // if (responsesss.ppm * 3 >= 1500) {
-  //       //   if(flag==1){
-  //       //     client.messages
-  //       //     .create({
-  //       //       from: "+16203494005",
-  //       //       body: "Reminder:your vehicle has crossed the threshold",
-  //       //       to: "+916380535543",
-  //       //     })
-  //       //     .then((message) => console.log(message.sid));
+
   //       //     flag=0;
   //       //   }
          
@@ -168,9 +206,14 @@ async function fetchppm(req, res) {
   // }
 }
 
+async function distraction(req, res) {
+let response = req.body.count;
+res.status(200).json({ message: response });
 
+}
 module.exports = {
   signin,
   fetchppm,
-  forgotpassword
+  forgotpassword,
+  distraction
 };
