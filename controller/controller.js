@@ -1,6 +1,7 @@
 var bCrypt = require("bcryptjs");
 const axios = require("axios");
 const jwt = require('jsonwebtoken');
+const request = require('request');
 
 const admin = require('firebase-admin');
 
@@ -78,7 +79,7 @@ async function fetchppm(req, res) {
     });
   }
   const parentRef = db.ref('irdai');
-  const dbdata = async (ppm)=>{
+  const dbdata = async (ppm,distraction)=>{
     try {
       
         const data =  await retrieveData(parentRef);
@@ -87,7 +88,7 @@ async function fetchppm(req, res) {
         // );
       let result = JSON.stringify(data, null, 2);
        result =JSON.parse(result)
-      let response = { user: result, ppm: ppm};
+      let response = { user: result, ppm: ppm,distraction:distraction};
       res.status(200).json([response]);
       
 
@@ -149,7 +150,7 @@ async function fetchppm(req, res) {
       console.log("twilio works");
      }
      if(fetchdata.length){
-      dbdata(fetchdata[length-1].field1)
+      dbdata(fetchdata[length-1].field1,fetchdata[length-1].field3)
     }else{
       
       dbdata(0)
@@ -207,8 +208,23 @@ async function fetchppm(req, res) {
 }
 
 async function distraction(req, res) {
+  const apiKey = 'PBE3QW3O1X8OSVYU';
+const apiUrl = 'https://thingspeak.com/channels/2237374/feed.json';
+
+
 let response = req.body.count;
 console.log("distraction",response);
+const data = {
+  api_key: apiKey,
+  field3: response,  // Adjust this based on your API response structure // Adjust this based on your API response structure
+};
+request.post(apiUrl, { form: data }, (error, response, body) => {
+  if (!error && response.statusCode === 200) {
+      console.log('Data sent to ThingSpeak successfully!');
+  } else {
+      console.log('Failed to send data to ThingSpeak:', error);
+  }
+});
 res.status(200).json({ message: response });
 
 }

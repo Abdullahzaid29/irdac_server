@@ -23,6 +23,7 @@
     "nodemailer": "^6.8.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^2.0.21",
+    "request": "^2.88.2",
     "sequelize": "^6.28.0",
     "twilio": "^4.8.0"
   },
