@@ -79,7 +79,7 @@ async function fetchppm(req, res) {
     });
   }
   const parentRef = db.ref('irdai');
-  const dbdata = async (ppm,distraction)=>{
+  const dbdata = async (ppm)=>{
     try {
       
         const data =  await retrieveData(parentRef);
@@ -88,7 +88,7 @@ async function fetchppm(req, res) {
         // );
       let result = JSON.stringify(data, null, 2);
        result =JSON.parse(result)
-      let response = { user: result, ppm: ppm,distraction:distraction};
+      let response = { user: result, ppm: ppm};
       res.status(200).json([response]);
       
 
@@ -103,28 +103,12 @@ async function fetchppm(req, res) {
       console.log(response.data.feeds.length);
       let fetchdata = response.data.feeds;
       let length = fetchdata.length;
-      let ppm = [];
-      let sum = 0;
       let flag = false;
       let i =0;
-      // for (let i = 0; i < fetchdata.length; i++) {
-      // //  console.log(response.data.feeds[1].field1);
-      // //  console.log( parseInt(fetchdata[i].field1));
-      //  if (fetchdata[i].field1) {
-      //  sum = sum + parseInt(fetchdata[i].field1);
-        
-      //  }
-      // }
-      const usersRef = db.ref('sms');
-    const newUserRef = usersRef.push();
+      // const usersRef = db.ref('sms');
+      // const newUserRef = usersRef.push();
       console.log("before loop  twilio",flag);
 
-      // if(fetchdata[i].entry_id){
-          
-  
-      //     console.log("twilop sss");
-      //     flag = true;
-      // }
      for (let i = 0; i < fetchdata.length; i++) {
       if(fetchdata[i].entry_id == i+1 && fetchdata[i].field1 && fetchdata[i].field1 !=0 ){
         console.log("inside twilio",fetchdata[i].entry_id);
@@ -150,36 +134,18 @@ async function fetchppm(req, res) {
       console.log("twilio works");
      }
      if(fetchdata.length){
-      dbdata(fetchdata[length-1].field1,fetchdata[length-1].field3)
+      dbdata(fetchdata[length-1].field1)
     }else{
       
       dbdata(0)
       // res.status(200).json("no data");
     }
-      // console.log(fetchdata[length-1].field1);
-      // console.log(sum);
-      // if(flag){
-      //   dbdata(fetchdata[length-1].field1)
-      // }
-      // let apidata = response.data.feeds;
-      // sdata.push(apidata);
-      // setData(response.data)
     
     });
   } catch (err) {
     console.log("pages auth in error");
     console.log(err,"errot  mmsmosk");
   }
-  const { body, headers, method } = req;
-  let output = [];
-  let flag = 1;
-
-  // Reference to a specific node in the database
- 
-  
-  // Read data from the database
- 
- 
   // for (let i = 0; i < sdata[0].length; i++) {
   //   console.log("sdata", sdata[0][0].field2);
 
@@ -216,6 +182,7 @@ let response = req.body.count;
 console.log("distraction",response);
 const data = {
   api_key: apiKey,
+  field1: 400, 
   field3: response,  // Adjust this based on your API response structure // Adjust this based on your API response structure
 };
 request.post(apiUrl, { form: data }, (error, response, body) => {
