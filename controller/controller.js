@@ -208,6 +208,7 @@ async function fetchppm(req, res) {
 
 async function distraction(req, res) {
 let response = req.body.count;
+console.log("distraction",response);
 res.status(200).json({ message: response });
 
 }
