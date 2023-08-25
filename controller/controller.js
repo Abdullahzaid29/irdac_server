@@ -103,26 +103,26 @@ async function fetchppm(req, res) {
       console.log(response.data.feeds.length);
       let fetchdata = response.data.feeds;
       let length = fetchdata.length;
-      let flag = false;
+      let flag = true;
       let i =0;
       // const usersRef = db.ref('sms');
       // const newUserRef = usersRef.push();
       console.log("before loop  twilio",flag);
 
-     for (let i = 0; i < fetchdata.length; i++) {
-      if(fetchdata[i].entry_id == i+1 && fetchdata[i].field1 && fetchdata[i].field1 !=0 ){
-        console.log("inside twilio",fetchdata[i].entry_id);
-        flag = true;
-  //       newUserRef.set(1)
-  // .then(() => {
-  //   console.log('Data appended successfully');
-  // })
-  // .catch((error) => {
-  //   console.error('Error appending data:', error);
-  // });
-        break
-      }
-     }
+  //    for (let i = 0; i < fetchdata.length; i++) {
+  //     if(fetchdata[i].entry_id == i+1 && fetchdata[i].field1 && fetchdata[i].field1 !=0 ){
+  //       console.log("inside twilio",fetchdata[i].entry_id);
+  //       flag = true;
+  // //       newUserRef.set(1)
+  // // .then(() => {
+  // //   console.log('Data appended successfully');
+  // // })
+  // // .catch((error) => {
+  // //   console.error('Error appending data:', error);
+  // // });
+  //       break
+  //     }
+  //    }
      if(flag){
       client.messages
       .create({
