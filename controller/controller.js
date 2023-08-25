@@ -79,7 +79,7 @@ async function fetchppm(req, res) {
     });
   }
   const parentRef = db.ref('irdai');
-  const dbdata = async (ppm)=>{
+  const dbdata = async (ppm,fine)=>{
     try {
       
         const data =  await retrieveData(parentRef);
@@ -88,7 +88,7 @@ async function fetchppm(req, res) {
         // );
       let result = JSON.stringify(data, null, 2);
        result =JSON.parse(result)
-      let response = { user: result, ppm: ppm};
+      let response = { user: result, ppm: ppm,fine:fine};
       res.status(200).json([response]);
       
 
@@ -134,7 +134,15 @@ async function fetchppm(req, res) {
       console.log("twilio works");
      }
      if(fetchdata.length){
-      dbdata(fetchdata[length-1].field1)
+      console.log("length",fetchdata.length);
+      let fine = 0;
+      for (let i = 80; i < fetchdata.length; i++) {
+        fine = fine+100;
+
+        
+      }
+      console.log("fine",fine);
+      dbdata(fetchdata[length-1].field1,fine)
     }else{
       
       dbdata(0)
