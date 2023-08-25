@@ -125,12 +125,12 @@ async function fetchppm(req, res) {
      }
      if(flag){
       client.messages
-      // .create({
-      //   from: "+16203494005",
-      //   body: "Reminder:your vehicle has crossed the threshold",
-      //   to: '+919025650110'
-      // })
-      // .then((message) => console.log(message.sid));
+      .create({
+        from: "+16203494005",
+        body: "Reminder:your vehicle has crossed the threshold",
+        to: '+919025650110'
+      })
+      .then((message) => console.log(message.sid));
       console.log("twilio works");
      }
      if(fetchdata.length){
